@@ -34,7 +34,18 @@
                     <p>2000 🪙</p>
                 </div>
             </div>
+            
             <button class="btn-roulette" onclick="goToRoulette()">🎰 Перейти к Рулетке</button>
+            <button class="btn-roulette" onclick="goToGarage()" style="background: #2b3e4e; margin-top: 10px;">🚗 Мой Гараж</button>
+        </div>
+
+        <!-- Экран Гаража -->
+        <div class="garage-screen" id="garage-screen" style="display: none;">
+            <h2>🚗 Мой Гараж</h2>
+            <div id="garage-list" style="display: flex; flex-direction: column; gap: 10px; margin-top: 20px;">
+                <!-- Сюда будут добавляться машины -->
+            </div>
+            <button class="btn-back" onclick="goToMenu()" style="margin-top: 20px;">⬅️ Назад в меню</button>
         </div>
 
         <!-- Экран кейсов (результат) -->
