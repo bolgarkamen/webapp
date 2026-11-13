@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>АвтоРулетка</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1>🏎️ АвтоРулетка</h1>
+            <div class="balance">Баланс: <span id="balance">1000</span> 🪙</div>
+        </header>
+
+        <div class="menu-screen" id="menu-screen">
+            <h2>Выбери кейс:</h2>
+            <div class="cases-grid">
+                <div class="case-item" onclick="openCase('Обычный')">
+                    <div class="case-icon">📦</div>
+                    <h3>Обычный</h3>
+                    <p>100 🪙</p>
+                </div>
+                <div class="case-item" onclick="openCase('Редкий')">
+                    <div class="case-icon">🎁</div>
+                    <h3>Редкий</h3>
+                    <p>500 🪙</p>
+                </div>
+                <div class="case-item" onclick="openCase('Легендарный')">
+                    <div class="case-icon">💎</div>
+                    <h3>Легендарный</h3>
+                    <p>2000 🪙</p>
+                </div>
+            </div>
+            <button class="btn-roulette" onclick="goToRoulette()">🎰 Перейти к Рулетке</button>
+        </div>
+
+        <div class="roulette-screen" id="roulette-screen" style="display: none;">
+            <h2>Рулетка машин</h2>
+            <p>Тут будет крутиться рулетка</p>
+            <button class="btn-back" onclick="goToMenu()">⬅️ Назад</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
