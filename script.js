@@ -1,8 +1,12 @@
 const tg = window.Telegram.WebApp;
 tg.expand();
 
-let currentBalance = 1000; 
+// Загружаем баланс из памяти (если нет — ставим 1000)
+let currentBalance = parseInt(localStorage.getItem('balance')) || 1000;
 document.getElementById('balance').innerText = currentBalance;
+
+// Загружаем гараж из памяти (если нет — пустой массив)
+let myCars = JSON.parse(localStorage.getItem('myCars')) || [];
 
 const carsDB = [
     { name: "Toyota Camry", color: "Чёрный" },
@@ -13,11 +17,17 @@ const carsDB = [
     { name: "Tesla Model 3", color: "Белый" }
 ];
 
+// Вспомогательная функция для сохранения баланса
+function saveBalance() {
+    localStorage.setItem('balance', currentBalance);
+    document.getElementById('balance').innerText = currentBalance;
+}
+
 // --- ЛОГИКА КЕЙСОВ ---
 function openCase(caseName, price) {
     if (currentBalance >= price) {
         currentBalance -= price;
-        document.getElementById('balance').innerText = currentBalance;
+        saveBalance();
         
         document.getElementById('menu-screen').style.display = 'none';
         document.getElementById('roulette-screen').style.display = 'block';
@@ -27,6 +37,11 @@ function openCase(caseName, price) {
 
         setTimeout(() => {
             const randomCar = carsDB[Math.floor(Math.random() * carsDB.length)];
+            
+            // ДОБАВЛЯЕМ МАШИНУ В ГАРАЖ И СОХРАНЯЕМ
+            myCars.push(randomCar);
+            localStorage.setItem('myCars', JSON.stringify(myCars));
+
             document.getElementById('roulette-title').innerText = "🎉 Ты выбил:";
             document.getElementById('car-name').innerText = randomCar.name;
             document.getElementById('car-details').innerText = `Цвет: ${randomCar.color}`;
@@ -77,7 +92,7 @@ function spinRoulette() {
     }
     
     currentBalance -= 100;
-    document.getElementById('balance').innerText = currentBalance;
+    saveBalance();
     
     const btn = document.getElementById('spin-btn');
     btn.disabled = true;
@@ -95,14 +110,17 @@ function spinRoulette() {
     
     setTimeout(() => {
         const winningCar = carsDB[Math.floor(Math.random() * carsDB.length)];
+        
+        // ДОБАВЛЯЕМ МАШИНУ В ГАРАЖ И СОХРАНЯЕМ
+        myCars.push(winningCar);
+        localStorage.setItem('myCars', JSON.stringify(myCars));
+
         if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
         
         tg.showAlert(`🎉 Ты выиграл: ${winningCar.name}!`, () => {
-            // ОТПРАВЛЯЕМ ДАННЫЕ В БОТА
-            tg.sendData(JSON.stringify({ action: "win_car", car: winningCar.name }));
-            
-            // ПРИНУДИТЕЛЬНО ЗАКРЫВАЕМ ПРИЛОЖЕНИЕ, ЧТОБЫ ДАННЫЕ ДОШЛИ
-            tg.close(); 
+            btn.disabled = false;
+            btn.innerText = "Крутить за 100 🪙";
+            goToMenu();
         });
     }, 3200);
 }
