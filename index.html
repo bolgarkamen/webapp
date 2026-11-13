@@ -14,6 +14,7 @@
             <div class="balance">Баланс: <span id="balance">1000</span> 🪙</div>
         </header>
 
+        <!-- Главный экран с кейсами -->
         <div class="menu-screen" id="menu-screen">
             <h2>Выбери кейс:</h2>
             <div class="cases-grid">
@@ -36,10 +37,17 @@
             <button class="btn-roulette" onclick="goToRoulette()">🎰 Перейти к Рулетке</button>
         </div>
 
-        <div class="roulette-screen" id="roulette-screen" style="display: none;">
-            <h2>Рулетка машин</h2>
-            <p>Тут будет крутиться рулетка</p>
-            <button class="btn-back" onclick="goToMenu()">⬅️ Назад</button>
+        <!-- Экран рулетки (появится при нажатии) -->
+        <div class="roulette-screen" id="roulette-screen" style="display: none; text-align: center;">
+            <h2 id="roulette-title">Крутим кейс...</h2>
+            
+            <!-- Окно с результатом -->
+            <div id="car-result" style="margin: 30px auto; padding: 20px; background: #2b3e4e; border-radius: 15px; width: 200px; display: none;">
+                <h3 id="car-name" style="color: #ffd700; font-size: 20px;"></h3>
+                <p id="car-details" style="color: #ccc; margin-top: 10px;"></p>
+            </div>
+
+            <button class="btn-back" onclick="goToMenu()" id="back-btn" style="display: none; margin-top: 20px;">⬅️ Забрать и выйти</button>
         </div>
     </div>
     <script src="script.js"></script>
