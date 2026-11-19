@@ -1,1 +1,139 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
+body {
+    background-color: #17212b;
+    color: #ffffff;
+    min-height: 100vh;
+    padding-bottom: 80px; /* Отступ, чтобы контент не залезал под панель */
+}
+
+.app-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #2b3e4e;
+}
+
+h1 { font-size: 24px; }
+
+.balance {
+    background: #2b3e4e;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+    color: #ffd700;
+}
+
+.cases-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.case-item {
+    background: #232e3c;
+    border-radius: 12px;
+    padding: 20px 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.2s;
+    border: 2px solid transparent;
+}
+
+.case-item:hover {
+    transform: translateY(-5px);
+    background: #2b3e4e;
+    border-color: #5e81ac;
+}
+
+.case-icon { font-size: 40px; margin-bottom: 10px; }
+.case-item p { color: #ffd700; margin-top: 5px; font-weight: bold; }
+
+.btn-roulette {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    margin-top: 20px;
+    background: #5288c1;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-roulette:hover { background: #6fa8dc; }
+
+.btn-back {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin-top: 20px;
+    background: #2b3e4e;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* НИЖНЯЯ ПАНЕЛЬ НАВИГАЦИИ */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #232e3c;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    border-top: 1px solid #2b3e4e;
+    z-index: 1000;
+}
+
+.bottom-nav button {
+    background: none;
+    border: none;
+    color: #8b9bb4;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: color 0.2s;
+}
+
+.bottom-nav button span {
+    font-size: 10px;
+    margin-top: 5px;
+    font-weight: bold;
+}
+
+.bottom-nav button:hover, .bottom-nav button:active {
+    color: #ffd700;
+}
+
+/* Скрываем панель навигации на внутренних экранах (по желанию, но так чище) */
+.app-container:has(.settings-screen[style*="block"]) .bottom-nav,
+.app-container:has(.garage-screen[style*="block"]) .bottom-nav,
+.app-container:has(.roulette-game-screen[style*="block"]) .bottom-nav,
+.app-container:has(.clicker-screen[style*="block"]) .bottom-nav,
+.app-container:has(.numbers-menu-screen[style*="block"]) .bottom-nav {
+    display: none; /* Убираем панель, когда мы внутри меню */
+}
