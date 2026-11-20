@@ -1,1 +1,157 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>АвтоРулетка</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1>🏎️ АвтоРулетка</h1>
+            <div class="balance">Баланс: <span id="balance">1000</span> 🪙</div>
+        </header>
 
+        <div class="menu-screen" id="menu-screen">
+            <h2>Выбери кейс:</h2>
+            <div class="cases-grid">
+                <div class="case-item" onclick="openCase('Обычный', 100)">
+                    <div class="case-icon">📦</div>
+                    <h3>Обычный</h3>
+                    <p>100 🪙</p>
+                </div>
+                <div class="case-item" onclick="openCase('Редкий', 500)">
+                    <div class="case-icon">🎁</div>
+                    <h3>Редкий</h3>
+                    <p>500 🪙</p>
+                </div>
+                <div class="case-item" onclick="openCase('Легендарный', 2000)">
+                    <div class="case-icon">💎</div>
+                    <h3>Легендарный</h3>
+                    <p>2000 🪙</p>
+                </div>
+            </div>
+        </div>
+
+        <nav class="bottom-nav" id="bottom-nav">
+            <button onclick="goToRoulette()">🎰<br><span>Рулетка</span></button>
+            <button onclick="goToGarage()">🚗<br><span>Гараж</span></button>
+            <button onclick="goToNumbersMenu()">🔠<br><span>Номера</span></button>
+            <button onclick="goToClicker()">🎮<br><span>Игра</span></button>
+            <button onclick="goToSettings()">⚙️<br><span>Настройки</span></button>
+        </nav>
+
+        <!-- Модалка бонуса -->
+        <div class="bonus-modal" id="bonus-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 100; justify-content: center; align-items: center;">
+            <div style="background: #232e3c; padding: 30px; border-radius: 20px; text-align: center; width: 80%; max-width: 300px; border: 2px solid #ffd700;">
+                <h2 style="color: #ffd700; margin-top: 0;">🎁 Бонус за вход!</h2>
+                <p style="color: #fff; font-size: 18px;">Ты получаешь <b>500 монет</b>!</p>
+                <button class="btn-roulette" onclick="claimBonus()" style="background: #ffd700; color: #000; margin-top: 20px;">Забрать</button>
+            </div>
+        </div>
+
+        <!-- Настройки -->
+        <div class="settings-screen" id="settings-screen" style="display: none;">
+            <h2>⚙️ Настройки</h2>
+            <div style="margin-top: 30px; display: flex; flex-direction: column; gap: 15px;">
+                <button class="btn-roulette" onclick="inviteFriend()" style="background: #27ae60;">🤝 Пригласить друга</button>
+                <button class="btn-roulette" onclick="contactDev()" style="background: #5288c1;">💬 Написать разработчику</button>
+                <button class="btn-roulette" onclick="toggleVibration()" id="vibration-btn" style="background: #2b3e4e;">📳 Вибрация: ВКЛ</button>
+                <button class="btn-roulette" onclick="resetProgress()" style="background: #c0392b;">🗑️ Сбросить прогресс</button>
+            </div>
+            <button class="btn-back" onclick="goToMenu()" style="margin-top: 30px;">⬅️ Назад в меню</button>
+        </div>
+
+        <!-- Номера -->
+        <div class="numbers-menu-screen" id="numbers-menu-screen" style="display: none; text-align: center;">
+            <h2>Кейсы с номерами</h2>
+            <div class="cases-grid" style="margin-top: 20px;">
+                <div class="case-item" onclick="openNumberCase('Обычный номер', 150)">
+                    <div class="case-icon">🔠</div>
+                    <h3>Обычный</h3>
+                    <p>150 🪙</p>
+                </div>
+                <div class="case-item" onclick="openNumberCase('Красивый номер', 1000)">
+                    <div class="case-icon">✨</div>
+                    <h3>Красивый</h3>
+                    <p>1000 🪙</p>
+                </div>
+            </div>
+            <button class="btn-back" onclick="goToMenu()" style="margin-top: 20px;">⬅️ Назад в меню</button>
+        </div>
+
+        <div class="number-result-screen" id="number-result-screen" style="display: none; text-align: center;">
+            <h2>🎉 Ты выбил номер:</h2>
+            <div style="margin: 30px auto; padding: 20px; background: #fff; color: #000; border: 4px solid #000; border-radius: 10px; width: 200px; font-family: monospace; font-weight: bold; font-size: 24px;">
+                <span id="number-text">А777АА</span>
+            </div>
+            <button class="btn-back" onclick="goToMenu()">⬅️ Забрать и выйти</button>
+        </div>
+
+        <!-- Гараж -->
+        <div class="garage-screen" id="garage-screen" style="display: none;">
+            <h2>🚗 Мой Гараж</h2>
+            <h3>Машины:</h3>
+            <div id="garage-list" style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px; margin-bottom: 20px;"></div>
+            <h3>Мои номера:</h3>
+            <div id="numbers-list" style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;"></div>
+            <button class="btn-back" onclick="goToMenu()" style="margin-top: 20px;">⬅️ Назад в меню</button>
+        </div>
+
+        <!-- Рулетка -->
+        <div class="roulette-game-screen" id="roulette-game-screen" style="display: none; text-align: center;">
+            <h2>Колесо удачи!</h2>
+            <p style="margin-bottom: 20px;">Стоимость: 100 🪙</p>
+            
+            <div style="position: relative; width: 300px; height: 300px; margin: 0 auto;">
+                <div style="position: absolute; top: -15px; left: 50%; transform: translateX(-50%); font-size: 35px; z-index: 10; color: #ffd700; filter: drop-shadow(0 0 10px #ffd700);">🔻</div>
+                
+                <div id="wheel" style="width: 100%; height: 100%; border-radius: 50%; border: 8px solid #ffd700; box-sizing: border-box; position: relative; transition: transform 4s cubic-bezier(0.1, 0.9, 0.2, 1); background: conic-gradient(#111111 0deg 45deg, #1c1c1c 45deg 90deg, #111111 90deg 135deg, #1c1c1c 135deg 180deg, #111111 180deg 225deg, #1c1c1c 225deg 270deg, #111111 270deg 315deg, #1c1c1c 315deg 360deg); box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);">
+                    <!-- Разделители -->
+                    <div style="position: absolute; top: 0; left: 50%; width: 2px; height: 50%; background: #ffd700; transform-origin: bottom center; transform: rotate(45deg);"></div>
+                    <div style="position: absolute; top: 0; left: 50%; width: 2px; height: 50%; background: #ffd700; transform-origin: bottom center; transform: rotate(90deg);"></div>
+                    <div style="position: absolute; top: 0; left: 50%; width: 2px; height: 50%; background: #ffd700; transform-origin: bottom center; transform: rotate(135deg);"></div>
+                    <div style="position: absolute; top: 0; left: 50%; width: 2px; height: 50%; background: #ffd700; transform-origin: bottom center; transform: rotate(180deg);"></div>
+                    <div style="position: absolute; top: 0; left: 50%; width: 2px; height: 50%; background: #ffd700; transform-origin: bottom center; transform: rotate(225deg);"></div>
+                    <div style="position: absolute; top: 0; left: 50%; width: 2px; height: 50%; background: #ffd700; transform-origin: bottom center; transform: rotate(270deg);"></div>
+                    <div style="position: absolute; top: 0; left: 50%; width: 2px; height: 50%; background: #ffd700; transform-origin: bottom center; transform: rotate(315deg);"></div>
+                    <div style="position: absolute; top: 0; left: 50%; width: 2px; height: 50%; background: #ffd700; transform-origin: bottom center; transform: rotate(0deg);"></div>
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #ffd700; width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 30px; border: 4px solid #111; z-index: 2; box-shadow: 0 0 15px rgba(0,0,0,0.8);">🏎️</div>
+                </div>
+            </div>
+
+            <button class="btn-roulette" id="spin-btn" onclick="spinWheel()" style="background: linear-gradient(135deg, #ffd700, #ff8c00); color: #000; font-size: 20px; padding: 18px; margin-top: 40px;">Крутить за 100 🪙</button>
+            <button class="btn-back" onclick="goToMenu()">⬅️ Назад в меню</button>
+        </div>
+
+        <!-- Результат кейса -->
+        <div class="roulette-screen" id="roulette-screen" style="display: none; text-align: center;">
+            <h2 id="roulette-title">Крутим кейс...</h2>
+            <div id="car-result" style="margin: 30px auto; padding: 20px; background: #2b3e4e; border-radius: 15px; width: 200px; display: none; display: flex; flex-direction: column; align-items: center;">
+                <!-- Сюда будет вставляться SVG -->
+                <div id="result-svg-container"></div>
+                <h3 id="car-name" style="color: #ffd700; font-size: 20px; margin-top: 10px;"></h3>
+            </div>
+            <button class="btn-back" onclick="goToMenu()" id="back-btn" style="display: none; margin-top: 20px;">⬅️ Забрать и выйти</button>
+        </div>
+
+        <!-- Кликер -->
+        <div class="clicker-screen" id="clicker-screen" style="display: none; text-align: center;">
+            <h2>Тапай по машине!</h2>
+            <p>Осталось времени: <span id="clicker-timer" style="color: #ffd700; font-weight: bold;">15</span> сек.</p>
+            <p>Заработано: <span id="clicker-earned" style="color: #2ecc71; font-weight: bold;">0</span> 🪙</p>
+            
+            <div id="clicker-area" style="margin: 20px auto; padding: 20px; background: #1e2732; border-radius: 20px; width: 200px; height: 150px; display: flex; justify-content: center; align-items: center; cursor: pointer; user-select: none;">
+                <!-- СЮДА БУДЕТ ВСТАВЛЯТЬСЯ SVG МАШИНА -->
+                <div id="clicker-svg-container"></div>
+            </div>
+            
+            <button class="btn-roulette" id="start-clicker-btn" onclick="startClicker()" style="background: #27ae60;">Начать игру</button>
+            <button class="btn-back" onclick="goToMenu()" style="margin-top: 20px;">⬅️ Назад в меню</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
