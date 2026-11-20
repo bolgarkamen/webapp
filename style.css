@@ -1,1 +1,203 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
 
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    background-color: #0a0a0a;
+    background-image: radial-gradient(circle at top, #1a1a1a 0%, #0a0a0a 100%);
+    color: #ffffff;
+    min-height: 100vh;
+    padding-bottom: 80px;
+    overflow-x: hidden;
+}
+
+.app-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Заголовок теперь по центру, без баланса внутри */
+header {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+h1 { 
+    font-size: 20px; 
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    background: linear-gradient(90deg, #fff, #ffd700);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+}
+
+/* Баланс теперь отдельный блок по центру */
+.balance-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 25px;
+}
+
+.balance {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+    padding: 10px 25px;
+    border-radius: 30px;
+    font-weight: 900;
+    font-size: 18px;
+    color: #ffd700;
+    border: 2px solid #ffd700;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.3), inset 0 0 10px rgba(255, 215, 0, 0.1);
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+}
+
+h2 {
+    font-size: 16px;
+    margin-bottom: 15px;
+    font-weight: 700;
+    color: #e2e8f0;
+    text-align: center; /* Выравниваем заголовок кейсов по центру */
+}
+
+.cases-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.case-item {
+    background: linear-gradient(145deg, #1c1c1c, #111111);
+    border-radius: 16px;
+    padding: 15px 5px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.8);
+}
+
+.case-item:active {
+    transform: scale(0.95);
+    border-color: #ffd700;
+}
+
+.case-icon { 
+    font-size: 30px; 
+    margin-bottom: 8px; 
+}
+
+.case-item h3 {
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 4px;
+}
+
+.case-item p { 
+    color: #ffd700; 
+    font-size: 12px; 
+    font-weight: 900;
+}
+
+.btn-roulette {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 14px;
+    margin-top: 15px;
+    background: #1c1c1c;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 14px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.btn-roulette:active {
+    transform: translateY(2px);
+    background: #2a2a2a;
+}
+
+.btn-back {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    margin-top: 20px;
+    background: transparent;
+    color: #a0a0a0;
+    border: 1px solid #333;
+    border-radius: 14px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+/* НИЖНЯЯ ПАНЕЛЬ */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0 15px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    z-index: 1000;
+}
+
+.bottom-nav button {
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    -webkit-appearance: none;
+    appearance: none;
+    color: #555;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px 10px;
+}
+
+.bottom-nav button span {
+    font-size: 9px;
+    margin-top: 4px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.bottom-nav button:active {
+    color: #fff;
+}
+
+/* Скрываем панель навигации на внутренних экранах */
+.app-container:has(.settings-screen[style*="block"]) .bottom-nav,
+.app-container:has(.garage-screen[style*="block"]) .bottom-nav,
+.app-container:has(.roulette-game-screen[style*="block"]) .bottom-nav,
+.app-container:has(.clicker-screen[style*="block"]) .bottom-nav,
+.app-container:has(.numbers-menu-screen[style*="block"]) .bottom-nav,
+.app-container:has(.roulette-screen[style*="block"]) .bottom-nav,
+.app-container:has(.number-result-screen[style*="block"]) .bottom-nav {
+    display: none;
+}
+
+#garage-list div, #numbers-list div {
+    background: #141414 !important;
+    border: 1px solid rgba(255,255,255,0.05);
+}
